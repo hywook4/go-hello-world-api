@@ -13,7 +13,7 @@ spec:
       labels:
         app: hello-world-gd
     spec:
-      containters:
+      containers:
       - images: hywook4/hello-world-go:test
         name: hello-world-go
         ports:
