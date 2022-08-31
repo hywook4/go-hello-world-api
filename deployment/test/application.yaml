@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        app: hello-world-gd
+        app: hello-world-go
     spec:
       containers:
       - image: hywook4/hello-world-go:test
