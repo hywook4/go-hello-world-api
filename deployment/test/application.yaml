@@ -1,0 +1,20 @@
+apiVersion: 
+kind: Deployment
+metadata:
+  name: hello-world-go
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3 # ?
+  selector:
+    matchLabels:
+      app: hello-world-go
+  template:
+    metadata:
+      labels:
+        app: hello-world-gd
+    spec:
+      containters:
+      - images: hywook4/hello-world-go:test
+        name: hello-world-go
+        ports:
+        - containerPort: 8080
