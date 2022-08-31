@@ -14,7 +14,7 @@ spec:
         app: hello-world-gd
     spec:
       containers:
-      - images: hywook4/hello-world-go:test
+      - image: hywook4/hello-world-go:test
         name: hello-world-go
         ports:
         - containerPort: 8080
