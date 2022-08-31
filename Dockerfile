@@ -1,4 +1,4 @@
-FROM golang:1.18.3-buster as build-env
+FROM golang:1.18.3-buster
 
 ARG port=8080
 
@@ -16,13 +16,8 @@ COPY . .
 # Build the application
 RUN go build main.go
 
+# Export necessary port
+EXPOSE ${port}
 
-FROM arm64v8/ubuntu
-
-WORKDIR /app
-
-COPY --from=build-env /build/main /app/main
-
-EXPOSE 8080
-
-CMD ["/app/main"]
+# Command to run when starting the container
+CMD ["/build/main"]
