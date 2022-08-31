@@ -14,7 +14,7 @@ spec:
         app: hello-world-go
     spec:
       containers:
-      - image: hywook4/hello-world-go:test
+      - image: hywook4/hello-world-go:amd64test
         name: hello-world-go
         ports:
         - containerPort: 8080
