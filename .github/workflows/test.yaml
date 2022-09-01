@@ -19,6 +19,9 @@ jobs:
           DOCKER_IMAGE=hywook4/hello-world-go
           TAG=$(date -u +'%Y%m%d%H%M%S')
 
+          echo ::set-output name=docker_image_tag::${DOCKER_IMAGE}:${TAG}
+
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
@@ -36,5 +39,5 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tag: ${{ steps.set-variables.DOCKER_IMAGE }}:${{ steps.set-variables.TAG }}
+          tag: ${{ steps.set-variables.outputs.docker_image_tag }}
 
