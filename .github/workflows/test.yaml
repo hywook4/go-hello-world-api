@@ -39,5 +39,5 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tag: ${{ steps.set-variables.outputs.docker_image_tag }}
+          tags: ${{ steps.set-variables.outputs.docker_image_tag }}
 
