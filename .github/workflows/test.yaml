@@ -27,6 +27,7 @@ jobs:
 
           TAG=$(date -u +'%Y%m%d%H%M%S')
 
+          echo ${GITHUB_REF##*/}
           echo ${DOCKER_IMAGE}:${TAG} ${DEPLOYMENT_FILE_PATH}
           echo ::set-output name=docker_image_tag::${DOCKER_IMAGE}:${TAG}
           echo ::set-output name=deployment_file_path::${DEPLOYMENT_FILE_PATH}
