@@ -10,7 +10,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/hello-world", getHelloWorld)
 
-	println("This is production Production")
+	println("This is develop develop")
 	router.Run("localhost:8080")
 }
 
