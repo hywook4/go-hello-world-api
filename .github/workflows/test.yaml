@@ -14,12 +14,12 @@ jobs:
         id: set-variables
         run: |
           case ${GITHUB_REF##*/} in
-            'refs/heads/main') 
+            'main') 
               DOCKER_IMAGE=hywook4/hello-world-go-prod
               DEPLOYMENT_FILE_PATH=prod/application.yaml
               ;;
 
-            'refs/heads/develop') 
+            'develop') 
               DOCKER_IMAGE=hywook4/hello-world-go-stage
               DEPLOYMENT_FILE_PATH=prod/application.yaml
               ;;
