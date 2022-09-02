@@ -1,15 +1,18 @@
-name: Build and Push 
+# Build, push image and update deployment spec
+name: Build, push and update deployment spec
 
 on:
+  # 특정 branch에 push 시 실행
   push:
     branches: [ "main", "develop" ]
 
 jobs:
   test-ci:
-    name: Build Docker image and push to repository
+    name: Build, push Docker image and update deployment spec
     runs-on: ubuntu-latest
 
     steps:
+      # 환경에 맞춰서 필요한 변수 설정 (TODO: CD 준비되면 수정 DEPLOYMENT_FILE_PATH, DEPLOYMENT_REPO 수정)
       - name: Set variables
         id: set-variables
         run: |
@@ -27,24 +30,32 @@ jobs:
 
           TAG=$(date -u +'%Y%m%d%H%M%S')
 
-          echo ${GITHUB_REF##*/}
-          echo ${DOCKER_IMAGE}:${TAG} ${DEPLOYMENT_FILE_PATH}
+          DEPLOYMENT_REPO=hywook4/argocd-test-application
+
+          echo Will push image to ${DOCKER_IMAGE}:${TAG} 
+          echo Will update deployment of ${DEPLOYMENT_REPO}/${DEPLOYMENT_FILE_PATH}
+
           echo ::set-output name=docker_image_tag::${DOCKER_IMAGE}:${TAG}
+          echo ::set-output name=deployment_repo::${DEPLOYMENT_REPO}
           echo ::set-output name=deployment_file_path::${DEPLOYMENT_FILE_PATH}
 
+      # 현재 repo로 checkout
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Docker buildx 설정
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
 
+      # Docker 로그인
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        
+      
+      # Docker 이미지 빌드, Dockerhub에 이미지 푸시
       - name: Build image and push to DockerHub
         uses: docker/build-push-action@v2
         with:
@@ -54,21 +65,25 @@ jobs:
           push: true
           tags: ${{ steps.set-variables.outputs.docker_image_tag }}
 
-      - name: Checkout push target repo
+      # Deployment repo로 checkout
+      - name: Checkout to deployment repo
         uses: actions/checkout@v3
         with:
-          repository: hywook4/argocd-test-application
+          repository: ${{ steps.set-variables.outputs.deployment_repo }}
           ssh-key: ${{ secrets.GIT_HUB_SSH_KEY }}
 
+      # Deployment spec 수정
       - name: Update deployment yaml's image tag
         uses: mikefarah/yq@master
         with:
           cmd: yq '.spec.template.spec.containers[0].image = "${{ steps.set-variables.outputs.docker_image_tag }}"' -i ${{ steps.set-variables.outputs.deployment_file_path }}
-        
-      - name: Push to target repo
+      
+      # Deployment 수정사항 deployment repo로 push
+      - name: Push deployment update to repo
         run: | 
-          git config user.name hywook4
-          git config user.email hywook4@gmail.com
+          git config user.name whitecubeinc
+          git config user.email whitecube.xyz@gmail.com
           git add .
-          git commit -m "update image to latest"
+          git commit -m "update deployment spec image to ${{ steps.set-variables.outputs.docker_image_tag }}"
           git push
+
