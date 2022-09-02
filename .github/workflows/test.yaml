@@ -21,7 +21,7 @@ jobs:
 
             'develop') 
               DOCKER_IMAGE=hywook4/hello-world-go-stage
-              DEPLOYMENT_FILE_PATH=prod/application.yaml
+              DEPLOYMENT_FILE_PATH=test/application.yaml
               ;;
           esac
 
@@ -67,8 +67,8 @@ jobs:
         
       - name: Push to target repo
         run: | 
-          git config user.name tttt
-          git config user.email tttt@gmail.com
+          git config user.name hywook4
+          git config user.email hywook4@gmail.com
           git add .
           git commit -m "update image to latest"
           git push
