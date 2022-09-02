@@ -84,6 +84,6 @@ jobs:
           git config user.name whitecubeinc
           git config user.email whitecube.xyz@gmail.com
           git add .
-          git commit -m "update deployment spec image to ${{ steps.set-variables.outputs.docker_image_tag }}"
+          git commit -m "update image to ${{ steps.set-variables.outputs.docker_image_tag }}"
           git push
 
