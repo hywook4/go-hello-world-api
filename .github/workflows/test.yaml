@@ -49,7 +49,7 @@ jobs:
       - name: Update deployment yaml's image tag
         uses: mikefarah/yq@master
         with:
-          cmd: yq '.spec.template.spec.containers[1].image = "${{ steps.set-variables.outputs.docker_image_tag }}"' -i test/application.yaml
+          cmd: yq '.spec.template.spec.containers[0].image = "${{ steps.set-variables.outputs.docker_image_tag }}"' -i test/application.yaml
         
       - name: Test print
         run: |
