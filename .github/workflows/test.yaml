@@ -50,6 +50,8 @@ jobs:
         uses: mikefarah/yq@master
         with:
           cmd: yq '.spec.template.spec.containers[1].image = "${{ steps.set-variables.outputs.docker_image_tag }}"' -i test/application.yaml
+        run: |
+          cat test/application.yaml
 
       # - name: Push change to deployment repository
       #   uses: cpina/github-action-push-to-another-repository@main
