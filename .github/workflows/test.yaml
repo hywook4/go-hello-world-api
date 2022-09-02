@@ -49,13 +49,13 @@ jobs:
       - name: Update deployment yaml's image tag
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '..spec.template.spec.containers[0].image = ${{ steps.set-variables.outputs.docker_image_tag }}' test/application.yaml
-      
-      - name: Push change to deployment repository
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          SSH_DEPLOY_KEY: ${{ secrets.GIT_HUB_SSH_KEY }}
-        with:
-          destination-github-username: hywook4
-          destination-repository-name: argocd-test-application
-          target-branch: main
+          cmd: yq '.spec.template.spec.containers[1].image = "${{ steps.set-variables.outputs.docker_image_tag }}"' -i test/application.yaml
+
+      # - name: Push change to deployment repository
+      #   uses: cpina/github-action-push-to-another-repository@main
+      #   env:
+      #     SSH_DEPLOY_KEY: ${{ secrets.GIT_HUB_SSH_KEY }}
+      #   with:
+      #     destination-github-username: hywook4
+      #     destination-repository-name: argocd-test-application
+      #     target-branch: main
