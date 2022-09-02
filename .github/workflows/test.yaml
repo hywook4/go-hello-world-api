@@ -51,9 +51,15 @@ jobs:
         with:
           cmd: yq '.spec.template.spec.containers[0].image = "${{ steps.set-variables.outputs.docker_image_tag }}"' -i test/application.yaml
         
-      - name: Test print
-        run: |
-          cat test/application.yaml
+      - name: Push to target repo
+        uses: actions/checkout@v3
+        with:
+          repository: hywook4/argocd-test-application
+          ssh-key: ${{ secrets.GIT_HUB_SSH_KEY }}
+        run: | 
+          git add .
+          git commit -m "update image to latest"
+          git push
 
       # - name: Push change to deployment repository
       #   uses: cpina/github-action-push-to-another-repository@main
