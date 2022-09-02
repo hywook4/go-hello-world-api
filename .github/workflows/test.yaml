@@ -21,7 +21,7 @@ jobs:
 
             'develop') 
               DOCKER_IMAGE=hywook4/hello-world-go-stage
-              DEPLOYMENT_FILE_PATH=prod/application.yaml
+              DEPLOYMENT_FILE_PATH=test/application.yaml
               ;;
           esac
 
