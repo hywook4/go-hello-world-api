@@ -28,7 +28,7 @@ RUN go build ${entry_path}
 
 # Stage 2 - Run Go application
 # Set running environment
-FROM scratch
+FROM ubuntu
 
 ARG port=8080
 
