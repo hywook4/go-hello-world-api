@@ -11,7 +11,7 @@ func main() {
 	router.GET("/hello-world", getHelloWorld)
 
 	println("This is 프로덕션이지롱")
-	router.Run("localhost:8080")
+	router.Run("0.0.0.0:8080")
 }
 
 func getHelloWorld(c *gin.Context) {
